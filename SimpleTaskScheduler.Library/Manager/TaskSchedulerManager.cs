@@ -57,6 +57,13 @@ namespace SimpleTaskScheduler.Library.Manager
                 var taskDuration = task.Duration.ToInt();
                 if (taskDuration <= 0 || !(availableTime > 0) || !(availableTime >= taskDuration)) continue;
                 //need to check if the task can be parked within the available slot of the current track
+                if (ScheduledDay.AvailableSlot.Exists(
+                    x => x.EndTime.Subtract(x.StartTime.Add(new TimeSpan(0, 0, taskDuration))).TotalMinutes > 0))            
+                {
+                    //task.ScheduledTime = new ScheduleTime { StartTime = x.StartTime, EndTime = x.StartTime.Add(new TimeSpan(0, 0, taskDuration)) };
+                    
+                }
+                
                 scheduledTasks.Add(task);
                 availableTime -= taskDuration;
             }
