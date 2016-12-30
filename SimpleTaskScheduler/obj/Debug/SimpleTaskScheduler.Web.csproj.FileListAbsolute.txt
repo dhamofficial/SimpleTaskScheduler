@@ -61,3 +61,5 @@ D:\Git\SimpleTaskScheduler\SimpleTaskScheduler\bin\System.Web.Http.Owin.xml
 D:\Git\SimpleTaskScheduler\SimpleTaskScheduler\obj\Debug\SimpleTaskScheduler.Web.csprojResolveAssemblyReference.cache
 D:\Git\SimpleTaskScheduler\SimpleTaskScheduler\obj\Debug\SimpleTaskScheduler.dll
 D:\Git\SimpleTaskScheduler\SimpleTaskScheduler\obj\Debug\SimpleTaskScheduler.pdb
+D:\Git\SimpleTaskScheduler\SimpleTaskScheduler\bin\SimpleTaskScheduler.Library.dll
+D:\Git\SimpleTaskScheduler\SimpleTaskScheduler\bin\SimpleTaskScheduler.Library.pdb

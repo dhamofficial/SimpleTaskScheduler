@@ -45,6 +45,7 @@
     <Compile Include="Domain\Interfaces\ITaskRepository.cs" />
     <Compile Include="Domain\Interfaces\ITaskSchedulerManager.cs" />
     <Compile Include="Domain\Models\ScheduleDay.cs" />
+    <Compile Include="Domain\Models\SchedulerPreference.cs" />
     <Compile Include="Domain\Models\ScheduleTime.cs" />
     <Compile Include="Domain\Models\TaskItem.cs" />
     <Compile Include="Domain\Models\Tracker.cs" />

@@ -10,5 +10,6 @@ namespace SimpleTaskScheduler.Library.Domain.Interfaces
     public interface ITaskRepository
     {
         List<TaskItem> GetTaskList();
+        List<ScheduleDay> GetScheduleWindow();
     }
 }

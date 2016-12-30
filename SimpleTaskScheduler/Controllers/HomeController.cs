@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SimpleTaskScheduler.Library.Domain.Models;
+using SimpleTaskScheduler.Library.Manager;
+using SimpleTaskScheduler.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,9 +13,17 @@ namespace SimpleTaskScheduler.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Scheduler";
 
-            return View();
+            var manager = new TaskSchedulerManager();
+
+            var vm = new SchedulerViewModel() {
+                InputTasks = manager.GetInputTasks(),
+                Tasks = manager.Schedule(),
+                Schedules = manager.GetSchedules()
+            };
+
+            return View(vm);
         }
     }
 }

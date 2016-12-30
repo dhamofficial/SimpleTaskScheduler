@@ -51,7 +51,6 @@ D:\Git\SimpleTaskScheduler\UnitTest\obj\Debug\UnitTest.dll
 D:\Git\SimpleTaskScheduler\UnitTest\obj\Debug\UnitTest.pdb
 D:\Git\SimpleTaskScheduler\UnitTest\bin\Debug\UnitTest.dll
 D:\Git\SimpleTaskScheduler\UnitTest\bin\Debug\UnitTest.pdb
-D:\Git\SimpleTaskScheduler\UnitTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
 D:\Git\SimpleTaskScheduler\UnitTest\bin\Debug\Newtonsoft.Json.dll
 D:\Git\SimpleTaskScheduler\UnitTest\bin\Debug\SimpleTaskScheduler.dll
 D:\Git\SimpleTaskScheduler\UnitTest\bin\Debug\SimpleTaskScheduler.Library.dll

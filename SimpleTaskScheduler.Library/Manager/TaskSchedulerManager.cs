@@ -12,73 +12,50 @@ namespace SimpleTaskScheduler.Library.Manager
 {
     public class TaskSchedulerManager:ITaskSchedulerManager
     {
-        private List<ScheduleDay> ScheduledDays { get; set; }
+        private List<ScheduleDay> scheduledDays;
+        private ITaskRepository taskRepository;
 
         public TaskSchedulerManager()
         {
-            SetConferenceWindow();
+            taskRepository = new TaskRepository();
+            scheduledDays = taskRepository.GetScheduleWindow();
         }
 
-        private void SetConferenceWindow()
+        public List<TaskItem> GetInputTasks()
         {
-            ScheduledDays = new List<ScheduleDay>();
-            var Day1 = new ScheduleDay
-            {
-                AvailableSlot = new List<ScheduleTime>(){
-                    new ScheduleTime()
-                    {
-                        StartTime = new TimeSpan(0,9,0,0), EndTime = new TimeSpan(0,12,0,0)
-                    },
-                    new ScheduleTime()
-                    {
-                        StartTime = new TimeSpan(0,13,0,0), EndTime = new TimeSpan(0,18,0,0)
-                    }
-                }
-            };
-            ScheduledDays.Add(Day1);
+            return taskRepository.GetTaskList();
         }
 
-
-        public void Schedule()
+        public List<ScheduleDay> GetSchedules()
         {
-            var taskRepository = new TaskRepository();
+            return taskRepository.GetScheduleWindow();
+        }
+
+        /// <summary>
+        /// Process the list of available slots based on best suitable for the available time within the slot.
+        /// </summary>
+        public List<TaskItem> Schedule()
+        {
+            var scheduledTasks=new List<TaskItem>();
             var tasks = taskRepository.GetTaskList();
 
-
-            ScheduledDays.ForEach(Day=> {
-                Day.AvailableSlot.Where(x=>x.IsFilled==false).FirstOrDefault()
-                                                                .SetCurrentSlot(tasks.Where(t=>t.IsScheduled==false).ToList())
-                                                                .ScheduleMatchingTask();
+            scheduledDays.ForEach(Day=> {
+                Day.AvailableSlot.ForEach(eachSlot => {
+                    eachSlot
+                        .SetCurrentSlot(tasks)
+                        .ProcessThisSlot(GetPreference)
+                        .ForEach(item=> scheduledTasks.Add(item));
+                });
             });
+            return scheduledTasks;
+        }
 
-
-            //double availableTime = 0;
-
-            //ScheduledDay.AvailableSlot.ForEach(x =>
-            //{
-            //    availableTime+= x.EndTime.Subtract(x.StartTime).TotalMinutes;
-            //});
-
-            //var scheduledTasks = new List<TaskItem>();
-            //var tracker = new Tracker();
-
-            //foreach (var task in tasks)
-            //{
-            //    var taskDuration = task.Duration.ToInt();
-            //    if (taskDuration <= 0 || !(availableTime > 0) || !(availableTime >= taskDuration)) continue;
-            //    //need to check if the task can be parked within the available slot of the current track
-            //    if (ScheduledDay.AvailableSlot.Exists(
-            //        x => x.EndTime.Subtract(x.StartTime.Add(new TimeSpan(0, 0, taskDuration))).TotalMinutes > 0))            
-            //    {
-            //        //task.ScheduledTime = new ScheduleTime { StartTime = x.StartTime, EndTime = x.StartTime.Add(new TimeSpan(0, 0, taskDuration)) };
-
-            //    }
-
-            //    scheduledTasks.Add(task);
-            //    availableTime -= taskDuration;
-            //}
-
-
+        private SchedulerPreference GetPreference()
+        {
+            var preference = new Domain.Models.SchedulerPreference {
+                SkipShortTopics=true
+            };
+            return preference;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleTaskScheduler.Library.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace SimpleTaskScheduler.Library.Domain.Interfaces
 {
     public interface ITaskSchedulerManager
     {
-        void Schedule();
+        List<TaskItem> GetInputTasks();
+        List<TaskItem> Schedule();
+        List<ScheduleDay> GetSchedules();
     }
 }

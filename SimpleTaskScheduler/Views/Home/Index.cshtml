@@ -1,24 +1,50 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+﻿@model SimpleTaskScheduler.Models.SchedulerViewModel
+    @{ 
+        int Day = 1, Slot=1;
+    }
+  <br /> 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+    <div class="col-md-7">
+        <div class="col-md-12">
+            <h3>Schedule</h3>
+            <ul>
+                @foreach (var item in Model.Schedules)
+                {
+                    <li>
+                        <strong>Day:@(Day++)</strong>
+                        <ul>
+                            @foreach (var slot in item.AvailableSlot)
+                            {
+                                <li>
+                                    Slot: @(Slot++)
+                                    <span>Start: <strong>@slot.StartTime</strong>, End: <strong>@slot.EndTime</strong></span>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-12">
+            <h3>Topics</h3>
+            <ol>
+                @foreach (var item in Model.Tasks)
+                {
+                    <li><h4>@item.Title</h4> - Duration: @item.Duration mins, When: @item.ScheduledTime.StartTime to @item.ScheduledTime.EndTime</li>
+                }
+            </ol>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
+    <div class="col-md-5">
+        <div class="col-md-12">
+            <h3>Plan</h3>
+            <ol>
+                @foreach (var item in Model.InputTasks)
+            {
+                    <li>@item.Title - @item.Duration mins</li>
+                }
+            </ol>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
-</div>
+    
+</div> 
