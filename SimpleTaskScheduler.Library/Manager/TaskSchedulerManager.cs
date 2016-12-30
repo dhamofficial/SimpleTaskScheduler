@@ -12,7 +12,7 @@ namespace SimpleTaskScheduler.Library.Manager
 {
     public class TaskSchedulerManager:ITaskSchedulerManager
     {
-        private ScheduleDay ScheduledDay { get; set; }
+        private List<ScheduleDay> ScheduledDays { get; set; }
 
         public TaskSchedulerManager()
         {
@@ -21,7 +21,8 @@ namespace SimpleTaskScheduler.Library.Manager
 
         private void SetConferenceWindow()
         {
-            ScheduledDay = new ScheduleDay()
+            ScheduledDays = new List<ScheduleDay>();
+            var Day1 = new ScheduleDay
             {
                 AvailableSlot = new List<ScheduleTime>(){
                     new ScheduleTime()
@@ -34,7 +35,9 @@ namespace SimpleTaskScheduler.Library.Manager
                     }
                 }
             };
+            ScheduledDays.Add(Day1);
         }
+
 
         public void Schedule()
         {
@@ -42,31 +45,38 @@ namespace SimpleTaskScheduler.Library.Manager
             var tasks = taskRepository.GetTaskList();
 
 
-            double availableTime = 0;
-
-            ScheduledDay.AvailableSlot.ForEach(x =>
-            {
-                availableTime+= x.EndTime.Subtract(x.StartTime).TotalMinutes;
+            ScheduledDays.ForEach(Day=> {
+                Day.AvailableSlot.Where(x=>x.IsFilled==false).FirstOrDefault()
+                                                                .SetCurrentSlot(tasks.Where(t=>t.IsScheduled==false).ToList())
+                                                                .ScheduleMatchingTask();
             });
 
-            var scheduledTasks = new List<TaskItem>();
-            var tracker = new Tracker();
 
-            foreach (var task in tasks)
-            {
-                var taskDuration = task.Duration.ToInt();
-                if (taskDuration <= 0 || !(availableTime > 0) || !(availableTime >= taskDuration)) continue;
-                //need to check if the task can be parked within the available slot of the current track
-                if (ScheduledDay.AvailableSlot.Exists(
-                    x => x.EndTime.Subtract(x.StartTime.Add(new TimeSpan(0, 0, taskDuration))).TotalMinutes > 0))            
-                {
-                    //task.ScheduledTime = new ScheduleTime { StartTime = x.StartTime, EndTime = x.StartTime.Add(new TimeSpan(0, 0, taskDuration)) };
-                    
-                }
-                
-                scheduledTasks.Add(task);
-                availableTime -= taskDuration;
-            }
+            //double availableTime = 0;
+
+            //ScheduledDay.AvailableSlot.ForEach(x =>
+            //{
+            //    availableTime+= x.EndTime.Subtract(x.StartTime).TotalMinutes;
+            //});
+
+            //var scheduledTasks = new List<TaskItem>();
+            //var tracker = new Tracker();
+
+            //foreach (var task in tasks)
+            //{
+            //    var taskDuration = task.Duration.ToInt();
+            //    if (taskDuration <= 0 || !(availableTime > 0) || !(availableTime >= taskDuration)) continue;
+            //    //need to check if the task can be parked within the available slot of the current track
+            //    if (ScheduledDay.AvailableSlot.Exists(
+            //        x => x.EndTime.Subtract(x.StartTime.Add(new TimeSpan(0, 0, taskDuration))).TotalMinutes > 0))            
+            //    {
+            //        //task.ScheduledTime = new ScheduleTime { StartTime = x.StartTime, EndTime = x.StartTime.Add(new TimeSpan(0, 0, taskDuration)) };
+
+            //    }
+
+            //    scheduledTasks.Add(task);
+            //    availableTime -= taskDuration;
+            //}
 
 
         }

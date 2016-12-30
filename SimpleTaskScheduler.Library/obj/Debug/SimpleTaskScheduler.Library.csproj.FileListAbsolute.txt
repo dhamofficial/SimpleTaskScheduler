@@ -1,0 +1,7 @@
+D:\Git\SimpleTaskScheduler\SimpleTaskScheduler.Library\bin\Debug\SimpleTaskScheduler.Library.dll
+D:\Git\SimpleTaskScheduler\SimpleTaskScheduler.Library\bin\Debug\SimpleTaskScheduler.Library.pdb
+D:\Git\SimpleTaskScheduler\SimpleTaskScheduler.Library\bin\Debug\Newtonsoft.Json.dll
+D:\Git\SimpleTaskScheduler\SimpleTaskScheduler.Library\bin\Debug\Newtonsoft.Json.xml
+D:\Git\SimpleTaskScheduler\SimpleTaskScheduler.Library\obj\Debug\SimpleTaskScheduler.Library.csprojResolveAssemblyReference.cache
+D:\Git\SimpleTaskScheduler\SimpleTaskScheduler.Library\obj\Debug\SimpleTaskScheduler.Library.dll
+D:\Git\SimpleTaskScheduler\SimpleTaskScheduler.Library\obj\Debug\SimpleTaskScheduler.Library.pdb

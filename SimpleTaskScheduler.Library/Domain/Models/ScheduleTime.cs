@@ -10,5 +10,6 @@ namespace SimpleTaskScheduler.Library.Domain.Models
     {
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
+        public bool IsFilled { get; set; }
     }
 }

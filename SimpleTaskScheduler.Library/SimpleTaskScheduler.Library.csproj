@@ -49,6 +49,7 @@
     <Compile Include="Domain\Models\TaskItem.cs" />
     <Compile Include="Domain\Models\Tracker.cs" />
     <Compile Include="Helper\TaskerExtensions.cs" />
+    <Compile Include="Manager\SchedulerExtensions.cs" />
     <Compile Include="Manager\TaskSchedulerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\TaskRepository.cs" />

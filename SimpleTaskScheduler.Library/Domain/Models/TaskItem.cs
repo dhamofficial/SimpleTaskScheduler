@@ -11,5 +11,6 @@ namespace SimpleTaskScheduler.Library.Domain.Models
         public string Title { get; set; }
         public string Duration { get; set; }
         public ScheduleTime ScheduledTime { get; set; }
+        public bool IsScheduled { get; set; }
     }
 }
