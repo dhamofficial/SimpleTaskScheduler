@@ -25,35 +25,40 @@ namespace SimpleTaskScheduler.Library.Manager
         {
             if (CurrentSlot == null || Tasks == null) return null;
             var scheduledTasks = new List<TaskItem>();
-            var SkipShortTopics = false;
+            var skipShortTopics = false;
 
             if (_preference!=null)
             {
                 var pref = _preference();
-                SkipShortTopics = pref.SkipShortTopics;
+                skipShortTopics = pref.SkipShortTopics;
             }
 
             //if SkipShortTopics = true - skip task that has duration 0
-            if(SkipShortTopics)
+            if(skipShortTopics)
             {
-                Tasks = Tasks.FindAll(x => x.Duration.ToInt() > 0);
+                Tasks = Tasks.FindAll(x => x.Duration  > 0);
             }
-
-            //var availableTime = CurrentSlot.EndTime.Subtract(CurrentSlot.StartTime).TotalMinutes;
-
-            //if there is no availableTime in current slot = set IsFilled = True
-            //if (availableTime <= 0) { input.IsFilled = true; }
-
+            else
+            {
+                var toBeRemoved = Tasks.SingleOrDefault(x => x.Duration ==0);
+                if (toBeRemoved != null)
+                {
+                    Tasks.Remove(toBeRemoved);
+                    Tasks.Add(toBeRemoved);
+                }
+            }
+             
             bool slotAvailable = true;
+            TimeSpan startTime = CurrentSlot.StartTime;
             while (slotAvailable)
             {
-                var availableTime = CurrentSlot.EndTime.Subtract(CurrentSlot.StartTime).TotalMinutes;
+                var availableTime = CurrentSlot.EndTime.Subtract(startTime).TotalMinutes;
                 slotAvailable = availableTime > 0;
 
                 if (slotAvailable)
                 {
                     var suitableTask = (from task in Tasks
-                                        where task.Duration.ToInt() <= availableTime && !task.IsScheduled
+                                        where task.Duration <= availableTime && !task.IsScheduled
                                         select new TaskItem
                                         {
                                             Id=task.Id,
@@ -62,13 +67,15 @@ namespace SimpleTaskScheduler.Library.Manager
                                             IsScheduled = true,
                                             ScheduledTime = new ScheduleTime
                                             {
-                                                StartTime = CurrentSlot.StartTime,
-                                                EndTime = CurrentSlot.StartTime.Add(new TimeSpan(0, task.Duration.ToInt(), 0)),
-                                                IsFilled=true
+                                                StartTime = startTime,
+                                                EndTime = startTime.Add(new TimeSpan(0, task.Duration, 0))
+                                                 
                                             }
                                         }).FirstOrDefault();
 
-                    CurrentSlot.StartTime = CurrentSlot.StartTime.Add(new TimeSpan(0, suitableTask.Duration.ToInt(), 0));
+                    if (suitableTask == null) break;//if suitableTask is null means there is no further tasks to schedule
+
+                    startTime = startTime.Add(new TimeSpan(0, suitableTask.Duration, 0));
                     Tasks.Where(x => x.Id == suitableTask.Id).ToList().ForEach(a => { a.IsScheduled = true; a.ScheduledTime = suitableTask.ScheduledTime; });
                     scheduledTasks.Add(suitableTask);
                 }
@@ -78,6 +85,5 @@ namespace SimpleTaskScheduler.Library.Manager
             CurrentSlot = input;
             return scheduledTasks;
         }
-         
     }
 }

@@ -10,8 +10,9 @@ namespace SimpleTaskScheduler.Library.Domain.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Duration { get; set; }
+        public int Duration { get; set; }
         public ScheduleTime ScheduledTime { get; set; }
         public bool IsScheduled { get; set; }
+        public bool IsFlexible { get; set; }
     }
 }

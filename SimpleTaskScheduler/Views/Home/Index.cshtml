@@ -11,13 +11,13 @@
                 @foreach (var item in Model.Schedules)
                 {
                     <li>
-                        <strong>Day:@(Day++)</strong>
+                        <strong>Track:@(Day++)</strong>
                         <ul>
                             @foreach (var slot in item.AvailableSlot)
                             {
                                 <li>
                                     Slot: @(Slot++)
-                                    <span>Start: <strong>@slot.StartTime</strong>, End: <strong>@slot.EndTime</strong></span>
+                                    <span>Start: <strong>@slot.StartTime </strong>, End: <strong>@slot.EndTime </strong></span>
                                 </li>
                             }
                         </ul>
@@ -30,7 +30,7 @@
             <ol>
                 @foreach (var item in Model.Tasks)
                 {
-                    <li><h4>@item.Title</h4> - Duration: @item.Duration mins, When: @item.ScheduledTime.StartTime to @item.ScheduledTime.EndTime</li>
+                    <li><h4>@item.Title</h4> - Duration: @item.Duration mins, When: @item.ScheduledTime.StartTime  to @item.ScheduledTime.EndTime </li>
                 }
             </ol>
         </div>

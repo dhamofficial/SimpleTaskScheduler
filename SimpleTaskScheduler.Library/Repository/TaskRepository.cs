@@ -26,6 +26,11 @@ namespace SimpleTaskScheduler.Library.Repository
                 var serializer = new JsonSerializer();
                 taskList = (List<TaskItem>)serializer.Deserialize(file, typeof(List<TaskItem>));
             }
+
+            //Non Flexble tasks can be added such that one task for each track - logical item
+            //taskList.Add(new TaskItem { Title="Networking", IsFlexible=false });
+            //taskList.Add(new TaskItem { Title="Networking", IsFlexible=false });
+
             int id = 1;
             taskList.ForEach(t=>t.Id=id++);
             return taskList;
@@ -43,10 +48,11 @@ namespace SimpleTaskScheduler.Library.Repository
                     },
                     new ScheduleTime()
                     {
-                        StartTime = new TimeSpan(0,13,0,0), EndTime = new TimeSpan(0,18,0,0)
+                        StartTime = new TimeSpan(0,13,0,0), EndTime = new TimeSpan(0,17,0,0)
                     }
                 }
             };
+            ScheduledDays.Add(Day1);
             ScheduledDays.Add(Day1);
             return ScheduledDays;
         }

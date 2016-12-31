@@ -12,13 +12,11 @@ namespace SimpleTaskScheduler.Library.Manager
 {
     public class TaskSchedulerManager:ITaskSchedulerManager
     {
-        private List<ScheduleDay> scheduledDays;
         private ITaskRepository taskRepository;
 
         public TaskSchedulerManager()
         {
             taskRepository = new TaskRepository();
-            scheduledDays = taskRepository.GetScheduleWindow();
         }
 
         public List<TaskItem> GetInputTasks()
@@ -26,6 +24,10 @@ namespace SimpleTaskScheduler.Library.Manager
             return taskRepository.GetTaskList();
         }
 
+        /// <summary>
+        /// Returns timing window for slots
+        /// </summary>
+        /// <returns></returns>
         public List<ScheduleDay> GetSchedules()
         {
             return taskRepository.GetScheduleWindow();
@@ -38,24 +40,22 @@ namespace SimpleTaskScheduler.Library.Manager
         {
             var scheduledTasks=new List<TaskItem>();
             var tasks = taskRepository.GetTaskList();
+            var scheduledDays = GetSchedules();
 
-            scheduledDays.ForEach(Day=> {
-                Day.AvailableSlot.ForEach(eachSlot => {
+            scheduledDays.ForEach(Day =>
+            {
+                Day.AvailableSlot.ForEach(eachSlot =>
+                {
                     eachSlot
                         .SetCurrentSlot(tasks)
-                        .ProcessThisSlot(GetPreference)
-                        .ForEach(item=> scheduledTasks.Add(item));
+                        .ProcessThisSlot(() => { return new SchedulerPreference { SkipShortTopics = false }; })
+                        .ForEach(item => scheduledTasks.Add(item));
                 });
             });
+             
+
             return scheduledTasks;
         }
-
-        private SchedulerPreference GetPreference()
-        {
-            var preference = new Domain.Models.SchedulerPreference {
-                SkipShortTopics=true
-            };
-            return preference;
-        }
+        
     }
 }

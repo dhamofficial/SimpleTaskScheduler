@@ -10,6 +10,15 @@ namespace SimpleTaskScheduler.Library.Domain.Models
     {
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
-        public bool IsFilled { get; set; }
+        private bool _isFilled { get; set; }
+
+        public int GetRemainingTime() {
+            return Convert.ToInt32(EndTime.Subtract(StartTime).TotalMinutes);
+        }
+         
+        public bool IsSlotFilled() {
+            _isFilled = Convert.ToInt32(EndTime.Subtract(StartTime).TotalMinutes) == 0;
+            return _isFilled;
+        }
     }
 }
