@@ -46,12 +46,11 @@ namespace UnitTest
             var tasks = repository.GetTaskList();
 
             //Act
-            manager.Schedule();
+            var scheduledItems = manager.Schedule();
 
             //Assert
-            //Assert.IsNotNull(repository);
-            //Assert.IsNotNull(tasks);
-            //Assert.IsTrue(tasks.Count > 0);
+            Assert.IsNotNull(scheduledItems);
+            Assert.IsTrue(tasks.Count == scheduledItems.Count);
         }
     }
 }
